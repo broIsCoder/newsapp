@@ -1,1 +1,1 @@
-it uses news api , we have categories , inside of categories  ,we have page with 7 posts
+it uses news api , we have categories  , each page is each category
