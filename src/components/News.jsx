@@ -134,7 +134,7 @@ export default class News extends Component {
                                                 urlNews={url}
                                                 date={publishedAt || "Unknown Date"}
                                                 // date={updated_date || "Unknown Date"}
-                                                source={''}
+                                                source={source.name}
                                                 style={{ backgroundColor: 'red', height: '100%' }}
                                             />
                                         </div>
