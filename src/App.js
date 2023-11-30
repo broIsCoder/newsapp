@@ -16,21 +16,21 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-        {/* <Navbar categories={this.categories}/> */}
-        <Navbar categories={this.tags} />
+        <Navbar categories={this.categories}/>
+        {/* <Navbar categories={this.tags} /> */}
         <Routes>
           <Route key={"landingpage"+"1"} exact path={`/`} element={
             <>
-              {/* <News heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories}/> */}
-              <News key={"landingpage"} heading="Top Headline For You" category={this.tags.indexOf("home")} categories={this.tags} />
+              <News key={"landingpage"} heading="Top Headline For You" pageSize={7} country={"us"} category={"general"} categories={this.categories}/>
+              {/* <News key={"landingpage"} heading="Top Headline For You" category={this.tags.indexOf("home")} categories={this.tags} /> */}
             </>
           } />
 
           {this.tags.map((category) => (
             <Route key={category+"1"}exact path={`/${category}`} element={
               <>
-                {/* <News heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories}/> */}
-                <News key={category} heading="Top Headline For You" category={this.tags.indexOf(category)} categories={this.tags} />
+                <News  key={category}heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories}/>
+                {/* <News key={category} heading="Top Headline For You" category={this.tags.indexOf(category)} categories={this.tags} /> */}
               </>
             } />
           ))}

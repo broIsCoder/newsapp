@@ -7,16 +7,16 @@ export default class News extends Component {
     //static is property of class itself 
     //this is instance of class
     static defaultProps = {
-        // country:"in",
-        // pageSize:8,
-        // category:"general"
-        category: 0,
+        country:"us",
+        pageSize:8,
+        category:"general"
+        // category: 0,
     }
     static propTypes = {
-        // country:PropTypes.string,
-        // pageSize:PropTypes.number,
-        // category:PropTypes.string,
-        category: PropTypes.number,
+        country:PropTypes.string,
+        pageSize:PropTypes.number,
+        category:PropTypes.string,
+        // category: PropTypes.number,
     }
     articles = [];
 
@@ -27,9 +27,9 @@ export default class News extends Component {
         this.state = {
             articles: this.articles,
             loading: true,
-            page: this.props.category,
-            // page: 1
-            // totalResult:0
+            page: 1,
+            // page: this.props.category,
+            totalResults:0
         }
     };
 
@@ -40,8 +40,8 @@ export default class News extends Component {
     //will fetch data as per page
     fetchData = async () => {
         this.setState({ loading: true })
-        // let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a3775b0b478d40e098a7f7c12e36154a&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-        let url = `https://api.nytimes.com/svc/topstories/v2/${this.props.categories[this.state.page] || "home"}.json?api-key=pbUSqRn3HG5w60MbkvxB2LmPgKEf1E65`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a3775b0b478d40e098a7f7c12e36154a&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        // let url = `https://api.nytimes.com/svc/topstories/v2/${this.props.categories[this.state.page] || "home"}.json?api-key=pbUSqRn3HG5w60MbkvxB2LmPgKEf1E65`;
         let response = await fetch(url);
         if (response.ok) {
             console.log('successfully fetched data :')
@@ -49,11 +49,11 @@ export default class News extends Component {
             const parsedData = await response.json();
             console.log(parsedData)
             this.setState({
-                // articles: parsedData.articles,
-                articles: parsedData.results,
+                articles: parsedData.articles,
+                // articles: parsedData.results,
                 loading: false,
-                // totalResult:parsedData.totalResults
-                totalResults: parsedData.num_results
+                totalResult:parsedData.totalResults
+                // totalResults: parsedData.num_results
             });
         } else {
             console.log('error fetching data')
@@ -85,10 +85,10 @@ export default class News extends Component {
 
 
     render() {      // Renders jsx      
-        // const { categories, heading,pageSize } = this.props;
-        const { categories, heading } = this.props;
-        // const { loading, articles, page ,totalResults} = this.state;
-        const { loading, articles, page, totalResults } = this.state;
+        const { categories, heading,pageSize } = this.props;
+        // const { categories, heading } = this.props;
+        const { loading, articles, page ,totalResults} = this.state;
+        // const { loading, articles, page, totalResults } = this.state;
         const tag = categories[this.state.page];
 
         let uniqueId = 0;
@@ -99,35 +99,34 @@ export default class News extends Component {
                 </h3>
                 {loading && <Spinner />}
                 <div className="row">
-                    {/* {!loading &&
-                articles.map(({ title, description, urlToImage, url,author,publishedAt,source}) => { */}
                     {!loading &&
-                        articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
+                articles.map(({ title, description, urlToImage, url,author,publishedAt,source}) => {
+                    // {!loading &&
+                    //     articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
                             if (title === '[Removed]') {
                                 return null; // Skip rendering
                             }
 
-                            //   const imageUrl = urlToImage || '';
-                            //   const altText = 'Here is a Image';
+                              const imageUrl = urlToImage || '';
+                              const altText = 'Here is a Image';
 
-                            const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
-                            const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
-                            const source = '';
+                            // const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
+                            // const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
 
                             return (
                                 <div className="col-md-4" key={uniqueId++}>
                                     <NewsItem
                                         title={title || '........'}
-                                        // description={description || '................'}
-                                        description={abstract || '................'}
+                                        description={description || '................'}
+                                        // description={abstract || '................'}
                                         urlImg={imageUrl}
                                         alt={altText || "A Image"}
-                                        // author={author|| "Unknown"}
-                                        author={byline || "Unknown"}
+                                        author={author|| "Unknown"}
+                                        // author={byline || "Unknown"}
                                         urlNews={url}
-                                        // date={publishedAt || "Unknown Date"}
-                                        date={updated_date || "Unknown Date"}
-                                        source={source}
+                                        date={publishedAt || "Unknown Date"}
+                                        // date={updated_date || "Unknown Date"}
+                                        source={''}
                                         style={{ backgroundColor: 'red', height: '100%' }}
                                     />
                                 </div>
@@ -135,14 +134,10 @@ export default class News extends Component {
                         })}
                 </div>
                 <div className="container d-flex justify-content-between">
-                    {/* <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark"> */}
-                    <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">
-                        &larr; Previous
-                    </button>
-                    {/* <button disabled={this.page>= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
-                    <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">
-                        Next &rarr;
-                    </button>
+                    <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button>
+                    {/* <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button> */}
+                    <button disabled={this.page>= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button>
+                    {/* <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
                 </div>
             </div>
         );
