@@ -48,7 +48,7 @@ export default class News extends Component {
             console.log(response);
             const parsedData = await response.json();
             console.log(parsedData)
-            this.setState({
+            await this.setState({
                 // articles: parsedData.articles,
                 articles: parsedData.results,
                 loading: false,
@@ -98,52 +98,55 @@ export default class News extends Component {
                     {heading} / {tag && tag.charAt(0).toUpperCase() + tag.slice(1)}-{totalResults}
                 </h3>
                 {loading && <Spinner />}
-                <div className="row">
-                    {/* {!loading &&
+                {totalResults === 0 ? <div className='text-warning'>No News for Now</div> :
+                <>
+                    <div className="row">
+                        {/* {!loading &&
                 articles.map(({ title, description, urlToImage, url,author,publishedAt,source}) => { */}
-                    {!loading &&
-                        articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
-                            if (title === '[Removed]') {
-                                return null; // Skip rendering
-                            }
+                        {!loading &&
+                            articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
+                                if (title === '[Removed]') {
+                                    return null; // Skip rendering
+                                }
 
-                            //   const imageUrl = urlToImage || '';
-                            //   const altText = 'Here is a Image';
+                                //   const imageUrl = urlToImage || '';
+                                //   const altText = 'Here is a Image';
 
-                            const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
-                            const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
-                            const source = '';
+                                const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
+                                const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
+                                const source = '';
 
-                            return (
-                                <div className="col-md-4" key={uniqueId++}>
-                                    <NewsItem
-                                        title={title || '........'}
-                                        // description={description || '................'}
-                                        description={abstract || '................'}
-                                        urlImg={imageUrl}
-                                        alt={altText || "A Image"}
-                                        // author={author|| "Unknown"}
-                                        author={byline || "Unknown"}
-                                        urlNews={url}
-                                        // date={publishedAt || "Unknown Date"}
-                                        date={updated_date || "Unknown Date"}
-                                        source={source}
-                                        style={{ backgroundColor: 'red', height: '100%' }}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
-                <div className="container d-flex justify-content-between">
-                    {/* <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark"> */}
-                    <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">
-                        &larr; Previous
-                    </button>
-                    {/* <button disabled={this.page>= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
-                    <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">
-                        Next &rarr;
-                    </button>
-                </div>
+                                return (
+                                    <div className="col-md-4" key={uniqueId++}>
+                                        <NewsItem
+                                            title={title || '........'}
+                                            // description={description || '................'}
+                                            description={abstract || '................'}
+                                            urlImg={imageUrl}
+                                            alt={altText || "A Image"}
+                                            // author={author|| "Unknown"}
+                                            author={byline || "Unknown"}
+                                            urlNews={url}
+                                            // date={publishedAt || "Unknown Date"}
+                                            date={updated_date || "Unknown Date"}
+                                            source={source}
+                                            style={{ backgroundColor: 'red', height: '100%' }}
+                                        />
+                                    </div>
+                                );
+                            })}
+                    </div>
+                    <div className="container d-flex justify-content-between">
+                        {/* <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark"> */}
+                        <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">
+                            &larr; Previous
+                        </button>
+                        {/* <button disabled={this.page>= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
+                        <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">
+                            Next &rarr;
+                        </button>
+                    </div>
+                </>}
             </div>
         );
     }
