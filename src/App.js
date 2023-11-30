@@ -10,8 +10,8 @@ import Navbar from './components/Navbar';
 import News from './components/News';
 
 export default class App extends Component {
-  tags = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'insider', 'magazine', 'movies', 'nyregion', 'politics', 'science', 'sports', 'technology', 'theater', 'upshot', 'us'];
-  categories = ['general', 'technology', 'business', 'sports', 'food', 'fashion', 'health', 'science', 'entertainment'];
+  tags = ['home','arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'insider', 'magazine', 'movies', 'nyregion', 'politics', 'science', 'sports', 'technology', 'theater', 'upshot', 'us'];
+  categories = ['technology', 'business', 'sports', 'food', 'fashion', 'health', 'science'];
 
   render() {
     return (
