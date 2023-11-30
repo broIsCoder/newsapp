@@ -1,3 +1,4 @@
 #root{
-    background:linear-gradient(to right , rgb(0, 20, 41) 0, rgb(0, 0, 0) 70%)
+    background:linear-gradient(to right , rgb(0, 20, 41) 0, rgb(0, 0, 0) 70%);
+    min-height: 100vh;
 }

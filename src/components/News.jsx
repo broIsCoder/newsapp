@@ -7,15 +7,15 @@ export default class News extends Component {
     //static is property of class itself 
     //this is instance of class
     static defaultProps = {
-        country:"us",
-        pageSize:8,
-        category:"general"
+        country: "us",
+        pageSize: 8,
+        category: "general"
         // category: 0,
     }
     static propTypes = {
-        country:PropTypes.string,
-        pageSize:PropTypes.number,
-        category:PropTypes.string,
+        country: PropTypes.string,
+        pageSize: PropTypes.number,
+        category: PropTypes.string,
         // category: PropTypes.number,
     }
     articles = [];
@@ -29,7 +29,7 @@ export default class News extends Component {
             loading: true,
             page: 1,
             // page: this.props.category,
-            totalResults:0
+            totalResults: 0
         }
     };
 
@@ -48,15 +48,19 @@ export default class News extends Component {
             console.log(response);
             const parsedData = await response.json();
             console.log(parsedData)
-            this.setState({
+            await this.setState({
                 articles: parsedData.articles,
-                // articles: parsedData.results,
                 loading: false,
-                totalResult:parsedData.totalResults
-                // totalResults: parsedData.num_results
+                totalResults: parsedData.totalResults
             });
+
+            console.log("totalresutls:" + this.state.totalResults)
+            if (this.state.totalResults <= 0) {
+                console.log("No News For Today");
+
+            }
         } else {
-            console.log('error fetching data')
+            console.log('error fetching data' + response.status)
             console.log(response);
         };
 
@@ -85,11 +89,11 @@ export default class News extends Component {
 
 
     render() {      // Renders jsx      
-        const { categories, heading,pageSize } = this.props;
+        const { categories, heading, pageSize } = this.props;
         // const { categories, heading } = this.props;
-        const { loading, articles, page ,totalResults} = this.state;
+        const { loading, articles, page, totalResults } = this.state;
         // const { loading, articles, page, totalResults } = this.state;
-        const tag = categories[this.state.page];
+        const tag = this.props.category;
 
         let uniqueId = 0;
         return (
@@ -98,47 +102,52 @@ export default class News extends Component {
                     {heading} / {tag && tag.charAt(0).toUpperCase() + tag.slice(1)}-{totalResults}
                 </h3>
                 {loading && <Spinner />}
-                <div className="row">
-                    {!loading &&
-                articles.map(({ title, description, urlToImage, url,author,publishedAt,source}) => {
-                    // {!loading &&
-                    //     articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
-                            if (title === '[Removed]') {
-                                return null; // Skip rendering
-                            }
+                {totalResults===0 ?
+                    <div className='text-warning w-100'>No News for Now</div> 
+                    :
+                    <>
+                        <div className="row">
+                            {!loading &&
+                                articles.map(({ title, description, urlToImage, url, author, publishedAt, source }) => {
+                                    // {!loading &&
+                                    //     articles.map(({ title, abstract, multimedia, url, byline, updated_date }) => {
+                                    if (title === '[Removed]') {
+                                        return null; // Skip rendering
+                                    }
 
-                              const imageUrl = urlToImage || '';
-                              const altText = 'Here is a Image';
+                                    const imageUrl = urlToImage || '';
+                                    const altText = 'Here is a Image';
 
-                            // const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
-                            // const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
+                                    // const imageUrl = multimedia && multimedia[0] && multimedia[0].url ? multimedia[0].url : '';
+                                    // const altText = multimedia && multimedia[0] ? multimedia[0].caption : '';
 
-                            return (
-                                <div className="col-md-4" key={uniqueId++}>
-                                    <NewsItem
-                                        title={title || '........'}
-                                        description={description || '................'}
-                                        // description={abstract || '................'}
-                                        urlImg={imageUrl}
-                                        alt={altText || "A Image"}
-                                        author={author|| "Unknown"}
-                                        // author={byline || "Unknown"}
-                                        urlNews={url}
-                                        date={publishedAt || "Unknown Date"}
-                                        // date={updated_date || "Unknown Date"}
-                                        source={''}
-                                        style={{ backgroundColor: 'red', height: '100%' }}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
-                <div className="container d-flex justify-content-between">
-                    <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button>
-                    {/* <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button> */}
-                    <button disabled={this.page>= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button>
-                    {/* <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
-                </div>
+                                    return (
+                                        <div className="col-md-4" key={uniqueId++}>
+                                            <NewsItem
+                                                title={title || '........'}
+                                                description={description || '................'}
+                                                // description={abstract || '................'}
+                                                urlImg={imageUrl}
+                                                alt={altText || "A Image"}
+                                                author={author || "Unknown"}
+                                                // author={byline || "Unknown"}
+                                                urlNews={url}
+                                                date={publishedAt || "Unknown Date"}
+                                                // date={updated_date || "Unknown Date"}
+                                                source={''}
+                                                style={{ backgroundColor: 'red', height: '100%' }}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                        </div>
+                        <div className="container d-flex justify-content-between">
+                            <button disabled={page <= 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button>
+                            {/* <button disabled={page === 0} onClick={this.previousPage} type="button" className="btn btn-dark">&larr; Previous</button> */}
+                            <button disabled={this.page >= Math.ceil(this.totalResults / this.pageSize)} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button>
+                            {/* <button disabled={page >= categories.length} onClick={this.nextPage} type="button" className="btn btn-dark">Next &rarr;</button> */}
+                        </div>
+                    </>}
             </div>
         );
     }
