@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import News from './components/News';
@@ -17,12 +16,10 @@ export default class App extends Component {
     return (
       <Router>
         <Navbar categories={this.categories}/>
-        {/* <Navbar categories={this.tags} /> */}
         <Routes>
           <Route key={"landingpage"+"1"} exact path={`/`} element={
             <>
               <News key={"landingpage"} heading="Top Headline For You" pageSize={7} country={"us"} category={"general"} categories={this.categories}/>
-              {/* <News key={"landingpage"} heading="Top Headline For You" category={this.tags.indexOf("home")} categories={this.tags} /> */}
             </>
           } />
 
@@ -30,11 +27,9 @@ export default class App extends Component {
             <Route key={category+"1"}exact path={`/${category}`} element={
               <>
                 <News  key={category}heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories}/>
-                {/* <News key={category} heading="Top Headline For You" category={this.tags.indexOf(category)} categories={this.tags} /> */}
               </>
             } />
           ))}
-
         </Routes>
       </Router>
     )
