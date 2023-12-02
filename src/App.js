@@ -17,7 +17,7 @@ export default class App extends Component {
       <Router>
         <Navbar categories={this.categories}/>
         <Routes>
-          <Route key={"landingpage"+"1"} exact path={`/`} element={
+          <Route key={"landingpage"} exact path={`/`} element={
             <>
               <News key={"landingpage"} heading="Top Headline For You" pageSize={7} country={"us"} category={"general"} categories={this.categories}/>
             </>

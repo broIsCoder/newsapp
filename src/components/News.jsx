@@ -18,8 +18,8 @@ export default class News extends Component {
     }
     articles = [];
 
-    // to use sate must use contructor
-    constructor(props) {      //think of it like functional component but split return feature with reander()
+    // to use state must use contructor
+    constructor(props) {      //think of it like functional component as it takes props and  reander() return DOM after it .
         super(props);         //must be called anyway
 
         this.state = {
@@ -31,6 +31,7 @@ export default class News extends Component {
         document.title = `News App - ${this.capitalize(this.props.category)}`;
     };
 
+    // after render() , fetch data
     componentDidMount() {
         this.fetchData();
     };
@@ -88,7 +89,7 @@ export default class News extends Component {
         return word.charAt(0).toUpperCase() + word.slice(1)
     }
 
-    render() {      // Renders jsx      
+    render() {      // Render DOM  after constructor
         const { category, heading } = this.props;
         const { loading, articles, page, totalResults } = this.state;
         const tag = category;
