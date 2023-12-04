@@ -32,7 +32,7 @@ export default class Navbar extends Component {
                                 </li>
                             ))}
                             <li className="nav-item">
-                                {/* <Link className="nav-link" href="#">About Us</Link> */}
+                                <Link className="nav-link" to="/">About Us</Link>
                             </li>
                         </ul>
                     </div>
