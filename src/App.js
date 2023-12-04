@@ -4,20 +4,19 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import News from './components/News';
 
 export default class App extends Component {
   tags = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'insider', 'magazine', 'movies', 'nyregion', 'politics', 'science', 'sports', 'technology', 'theater', 'upshot', 'us'];
-  apiKey =REACT_APP_NEWS_API;
+  apiKey =process.env.REACT_APP_NYTIMES_API;
   render() {
     return (
       <Router>
         <Navbar categories={this.tags} />
         <Routes>
-          <Route key={"landingpage"+"1"} exact path={`/`} element={
+          <Route key={"landingpage"} exact path={`/`} element={
             <>
               <News apiKey={this.apiKey} key={"landingpage"} heading="Top Headline For You" category={this.tags.indexOf("home")} categories={this.tags} />
             </>
