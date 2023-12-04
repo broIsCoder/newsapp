@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { useState} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,40 +9,36 @@ import LoadingBar from 'react-top-loading-bar'
 import Navbar from './components/Navbar';
 import News from './components/News';
 
-export default class App extends Component {
-  tags = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'insider', 'magazine', 'movies', 'nyregion', 'politics', 'science', 'sports', 'technology', 'theater', 'upshot', 'us'];
-  categories = ['technology', 'business', 'sports', 'food', 'fashion', 'health', 'science'];
-  
-  state = {
-    progress:0 
-  }
-  setProgress=(currentProgress)=>{
-    this.setState({progress:currentProgress })
+export default function() {
+  const categories = ['technology', 'business', 'sports', 'food', 'fashion', 'health', 'science'];
+  const [progress, setProgress] = useState(0);
+
+  const changeProgressBar=(currentProgress)=>{
+    setProgress(currentProgress)
   }
 
-  apiKey =process.env.REACT_APP_NEWS_API ;
+  const apiKey =process.env.REACT_APP_NEWS_API ;
 
-  render() {
     return (
       <Router >
         <div className='app' style={{ background: "linear-gradient(to right , rgb(0, 20, 41) 0, rgb(0, 0, 0) 70%)" }}>
-          <Navbar categories={this.categories} />
+          <Navbar categories={categories} />
           <LoadingBar
             color='#f11946'
-            progress={this.state.progress}
+            progress={progress.progress}
             height={3}
           />
           <Routes>
             <Route key={"landingpage"} exact path={`/`} element={
               <>
-                <News apiKey={this.apiKey} setProgress={this.setProgress} key={"landingpage"} heading="Top Headline For You" pageSize={7} country={"us"} category={"general"} categories={this.categories} />
+                <News apiKey={apiKey} changeProgressBar={changeProgressBar} key={"landingpage"} heading="Top Headline For You" pageSize={7} country={"us"} category={"general"} categories={categories} />
               </>
             } />
 
-            {this.tags.map((category) => (
+            {categories.map((category) => (
               <Route key={category + "1"} exact path={`/${category}`} element={
                 <>
-                  <News apiKey={this.apiKey} setProgress={this.setProgress} key={category} heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories} />
+                  <News apiKey={apiKey} changeProgressBar={changeProgressBar} key={category} heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={categories} />
                 </>
               } />
             ))}
@@ -50,6 +46,5 @@ export default class App extends Component {
         </div>
       </Router>
     )
-  }
-
+  
 }
