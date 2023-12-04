@@ -10,8 +10,7 @@ import Navbar from './components/Navbar';
 import News from './components/News';
 
 export default class App extends Component {
-  tags = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'insider', 'magazine', 'movies', 'nyregion', 'politics', 'science', 'sports', 'technology', 'theater', 'upshot', 'us'];
-  categories = ['technology', 'business', 'sports', 'food', 'fashion', 'health', 'science'];
+ categories = ['technology', 'business', 'sports', 'food', 'fashion', 'health', 'science'];
   
   state = {
     progress:0 
@@ -39,7 +38,7 @@ export default class App extends Component {
               </>
             } />
 
-            {this.tags.map((category) => (
+            {this.categories.map((category) => (
               <Route key={category + "1"} exact path={`/${category}`} element={
                 <>
                   <News apiKey={this.apiKey} setProgress={this.setProgress} key={category} heading="Top Headline For You" pageSize={7} country={"us"} category={category} categories={this.categories} />
